@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+# Thomas Merkel <tm@core.io>
+# Simple bash script to administrate remote SmartOS machines with
+# vmadm and imgadm over openSSH. Keep it simple and stupid!
+
+## Functions and other libs
+. lib/utils.sh
+. lib/shml.sh
+. lib/vmadm.sh
+. lib/imgadm.sh
+
+## Parameters- and Optionsparser
+# Params:
+# - ${1} hypervisor
+# Options:
+# - ${2} vmadm
+#   - ${3} create [TEMPLATE]
+#   - ${3} *
+# - ${2} imgadm
+#   - ${3} *
+
+hypervisor=${1}; shift
+option=${1}; shift
+
+# Verify if function exists
+if [ -n "$(type -t ${option})" ] && [ "$(type -t ${option})" = function ]; then
+	returnValues="$(${option} ${@})"
+	if (( ${?} > 0 )); then
+		echo ${returnValues}
+		exit ${?}
+	fi
+	# Run command remotly
+	echo "${returnValues}" | while read command; do
+		echo ${option} ${command}
+#		ssh ${hypervisor} "${option} ${command}"
+	done
+else
+	help
+fi

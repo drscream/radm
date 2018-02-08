@@ -1,0 +1,26 @@
+{
+  "brand": "joyent",
+  "image_uuid": "${UUID}",
+  "autoboot": true,
+  "alias": "${FQDN}",
+  "hostname": "${FQDN}",
+  "delegate_dataset": true,
+  "dns_domain": "${DNS_DOMAIN}",
+  "resolvers": [
+    "8.8.8.8",
+    "8.8.4.4"
+  ],
+  "max_physical_memory": 2048,
+  "max_swap": 2048,
+  "quota": 32,
+  "nics": [
+    {
+      "nic_tag": "external",
+      "ips": [ ${IPS} ],
+      "gateways": [ ${GATEWAYS} ],
+      "primary": true
+    }
+  ],
+  "customer_metadata": {},
+  "internal_metadata": {}
+}
