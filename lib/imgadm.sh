@@ -1,3 +1,3 @@
 imgadm() {
-	echo ${@}
+	echo "imgadm ${@}"
 }

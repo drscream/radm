@@ -31,7 +31,8 @@ if [ -n "$(type -t ${option})" ] && [ "$(type -t ${option})" = function ]; then
 	fi
 	# Run command remotly
 	echo "${returnValues}" | while read command; do
-		ssh ${hypervisor} "${option} ${command}"
+		echo ssh ${hypervisor} ${command}
+		ssh ${hypervisor} ${command}
 	done
 else
 	help

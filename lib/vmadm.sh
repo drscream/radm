@@ -49,7 +49,7 @@ vmadm() {
 
 			# Return commands
 			echo "'cat > template.json' < ${tempFile}"
-			echo "create -f template.json"
+			echo "vmadm create -f template.json"
 			;;
 		*)
 			echo ${@}
