@@ -1,3 +1,3 @@
 imgadm() {
-	echo "imgadm ${@}"
+	echo "ssh imgadm ${@}"
 }

@@ -48,8 +48,9 @@ vmadm() {
 			fi
 
 			# Return commands
-			echo "'cat > template.json' < ${tempFile}"
-			echo "vmadm create -f template.json"
+			echo "ssh imgadm import ${UUID}"
+			echo "scp ${tempFile} /tmp/template.json"
+			echo "ssh vmadm create -f /tmp/template.json"
 			;;
 		*)
 			echo ${@}

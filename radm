@@ -30,9 +30,18 @@ if [ -n "$(type -t ${option})" ] && [ "$(type -t ${option})" = function ]; then
 		exit ${?}
 	fi
 	# Run command remotly
-	echo "${returnValues}" | while read command; do
-		echo ssh ${hypervisor} ${command}
-		ssh ${hypervisor} ${command}
+	echo "${returnValues}" | while read connect command; do
+		case "${connect}" in
+			ssh)
+				ssh ${hypervisor} ${command} </dev/null
+				;;
+			scp)
+				scp ${command% *} ${hypervisor}:${command#* }
+				;;
+			*)
+				echo ${connect} ${hypervisor} ${command}
+				;;
+		esac
 	done
 else
 	help
