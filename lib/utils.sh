@@ -18,3 +18,9 @@ err() {
 	local msg=${@}
 	echo Error: ${msg}
 }
+
+usage() {
+	echo "${0} [hypervisor] [vmadm|imgadm] [create] [template] [options]"
+	echo
+	exit 1
+}

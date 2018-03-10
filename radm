@@ -12,6 +12,7 @@
 ## Parameters- and Optionsparser
 # Params:
 # - ${1} hypervisor
+option_avail="vmadm|imgadm"
 # Options:
 # - ${2} vmadm
 #   - ${3} create [TEMPLATE]
@@ -24,6 +25,10 @@ option=${1}; shift
 
 # Verify if function exists
 if [ -n "$(type -t ${option})" ] && [ "$(type -t ${option})" = function ]; then
+	# Verify available options
+	if [[ ! ${option} =~ ^(vmadm|imgadm)$ ]]; then
+		usage
+	fi
 	returnValues="$(${option} ${@})"
 	if (( ${?} > 0 )); then
 		echo ${returnValues}
@@ -44,5 +49,5 @@ if [ -n "$(type -t ${option})" ] && [ "$(type -t ${option})" = function ]; then
 		esac
 	done
 else
-	help
+	usage
 fi
