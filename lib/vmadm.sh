@@ -42,8 +42,8 @@ vmadm() {
 			# Render existing template
 			render ${templateFile} > ${tempFile}
 			if (( $(grep -c '""' ${tempFile}) > 0 )); then
-				err "Not all variables are replaced"
-				# TODO: list existing or not used variables
+				err "Not all variables are replaced: "
+				sed -n 's:.*\${\(.*\)}.*:\1, :p' ${templateFile} | tr '[:upper:]' '[:lower:]'
 				return 2
 			fi
 
