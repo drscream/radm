@@ -2,7 +2,7 @@ vmadm() {
 	case "${1}" in
 		create)
 			local templateFile="var/templates/${2}.json"
-			local tempFile=$(mktemp --suffix=radm)
+			local tempFile=$(mktemp)
 
 			# Verify template json file exists
 			if [[ ! -f ${templateFile} ]]; then
