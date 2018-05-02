@@ -1,11 +1,11 @@
 vmadm() {
 	case "${1}" in
 		create)
-			local templateFile="var/templates/${2}.json"
+			local templateFile="var/templates/${2}"
 			local tempFile=$(mktemp)
 
 			# Verify template json file exists
-			if [[ ! -f ${templateFile} ]]; then
+			if [[ ! -f ${templateFile}.json ]]; then
 				err "Template does not exists"
 				return 1
 			fi
@@ -40,10 +40,10 @@ vmadm() {
 			done
 
 			# Render existing template
-			render ${templateFile} > ${tempFile}
+			render ${templateFile}.json > ${tempFile}
 			if (( $(grep -c '""' ${tempFile}) > 0 )); then
 				err "Not all variables are replaced: "
-				sed -n 's:.*\${\(.*\)}.*:\1, :p' ${templateFile} | tr '[:upper:]' '[:lower:]'
+				sed -n 's:.*\${\(.*\)}.*:\1, :p' ${templateFile}.json | tr '[:upper:]' '[:lower:]'
 				return 2
 			fi
 
@@ -51,6 +51,10 @@ vmadm() {
 			echo "ssh imgadm import ${UUID}"
 			echo "scp ${tempFile} /tmp/template.json"
 			echo "ssh vmadm create -f /tmp/template.json"
+			# Allow additional scripts to be executed
+			if [[ -f ${templateFile}.sh ]]; then
+				echo "local ${templateFile}.sh ${@}"
+			fi
 			;;
 		*)
 			echo ${@}

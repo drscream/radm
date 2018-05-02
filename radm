@@ -43,6 +43,9 @@ if [ -n "$(type -t ${option})" ] && [ "$(type -t ${option})" = function ]; then
 			scp)
 				scp ${command% *} ${hypervisor}:${command#* }
 				;;
+			local)
+				./${command}
+				;;
 			*)
 				echo ${connect} ${hypervisor} ${command}
 				;;

@@ -24,3 +24,16 @@ usage() {
 	echo
 	exit 1
 }
+
+rmdata-get() {
+	local fqdn=${1}
+	local var=${2}
+	ssh -o 'StrictHostKeyChecking=no' -o 'LogLevel=QUIET' admin@${fqdn} "/opt/local/bin/sudo mdata-get ${var}"
+}
+
+rmdata-set() {
+	local fqdn=${1}; shift
+	local var=${2};  shift
+	local in=${@}
+	ssh -o 'StrictHostKeyChecking=no' admin@${fqdn} "echo ${in} | /opt/local/bin/sudo mdata-set ${var}"
+}
